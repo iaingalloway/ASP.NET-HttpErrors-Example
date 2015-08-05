@@ -1,6 +1,5 @@
 ﻿namespace HttpErrors.Mvc.Tests.Controllers
 {
-    using System;
     using System.Web.Mvc;
     using HttpErrors.Mvc.Controllers;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,6 +8,26 @@
     [TestClass]
     public sealed class ErrorsControllerTests
     {
+        [TestMethod]
+        public void ErrorController_Other_Code()
+        {
+            // Arrange
+            var context = new Mock<ControllerContext>();
+            context.Setup(x => x.HttpContext.Response.StatusCode).Verifiable();
+
+            using (var controller = new ErrorsController())
+            {
+                controller.ControllerContext = context.Object;
+
+                // Act
+                var result = controller.Other(400) as ViewResult;
+
+                // Assert
+                Assert.IsNotNull(result);
+                context.VerifySet(x => x.HttpContext.Response.StatusCode = 400);
+            }
+        }
+
         [TestMethod]
         public void Forbidden()
         {
@@ -66,26 +85,6 @@
                 // Assert
                 Assert.IsNotNull(result);
                 context.VerifySet(x => x.HttpContext.Response.StatusCode = 500);
-            }
-        }
-
-        [TestMethod]
-        public void ErrorController_Other_Code()
-        {
-            // Arrange
-            var context = new Mock<ControllerContext>();
-            context.Setup(x => x.HttpContext.Response.StatusCode).Verifiable();
-
-            using (var controller = new ErrorsController())
-            {
-                controller.ControllerContext = context.Object;
-
-                // Act
-                var result = controller.Other(400) as ViewResult;
-
-                // Assert
-                Assert.IsNotNull(result);
-                context.VerifySet(x => x.HttpContext.Response.StatusCode = 400);
             }
         }
     }
