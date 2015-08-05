@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Custom error pages with httpErrors</h1>
+    <p class="lead">Since IIS7, you can define your custom error pages using the httpErrors node in web.config.</p>
+    <p>
+        This lets you catch errors in a SEO-friendly fashion from both inside (e.g. application exceptions) and outside
+        (e.g. IIS request validation failures) your application without having error-handling code everywhere.
+    </p>
+    <p>
+        Take a look at Web.config and ErrorsController.cs to learn more.
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>You aren't allowed here</h2>
+        <p>
+            Generate a HTTP 403 error.
+        </p>
+        <p>@Html.ActionLink("Forbidden! »", "Forbidden", "Home", new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-4">
+        <h2>This is broken</h2>
+        <p>
+            Generate an application exception.
+        </p>
+        <p>@Html.ActionLink("Internal Server Error! »", "Other", "Home", new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-4">
+        <h2>There's nothing here</h2>
+        <p>
+            Generate a HTTP 404 error.
+        </p>
+        <p>@Html.ActionLink("Not Found! »", "NotFound", "Home", new { @class = "btn btn-default" })</p>
+    </div>
+</div>
